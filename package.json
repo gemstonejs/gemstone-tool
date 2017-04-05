@@ -1,0 +1,62 @@
+{
+    "name":        "gemstone-tool",
+    "homepage":    "http://github.com/gemstonejs/gemstone-tool",
+    "description": "Gemstone Command-Line Interface Tool",
+    "version":     "0.9.0",
+    "license":     "Apache-2.0",
+    "author": {
+        "name":    "Gemstone Project",
+        "url":     "http://gemstonejs.com"
+    },
+    "keywords": [
+        "gemstone", "cli", "tool"
+    ],
+    "repository": {
+        "type": "git",
+        "url":  "git://github.com/gemstonejs/gemstone-tool.git"
+    },
+    "bugs": {
+        "url":  "http://github.com/gemstonejs/gemstone-tool/issues"
+    },
+    "devDependencies": {
+        "grunt":                            "~1.0.1",
+        "grunt-cli":                        "~1.2.0",
+        "grunt-contrib-clean":              "~1.0.0",
+        "grunt-babel":                      "~6.0.0",
+        "grunt-eslint":                     "~19.0.0",
+        "eslint":                           "~3.19.0",
+        "eslint-config-standard":           "~10.0.0",
+        "eslint-plugin-standard":           "~2.2.0",
+        "eslint-plugin-promise":            "~3.5.0",
+        "eslint-plugin-import":             "~2.2.0",
+        "eslint-plugin-node":               "~4.2.2",
+        "babel-eslint":                     "~7.2.1",
+        "babelify":                         "~7.3.0",
+        "babel-preset-es2015":              "~6.24.0",
+        "babel-preset-es2016":              "~6.22.0",
+        "babel-preset-es2017":              "~6.22.0",
+        "babel-preset-stage-3":             "~6.22.0",
+        "babel-preset-stage-2":             "~6.22.0",
+        "babel-plugin-transform-runtime":   "~6.23.0",
+        "babel-runtime":                    "~6.23.0"
+    },
+    "dependencies" : {
+        "ducky":                            "~2.5.0",
+        "cli-table2":                       "~0.2.0",
+        "window-size":                      "~0.3.0",
+        "chalk":                            "~1.1.3",
+        "latching":                         "~0.9.6",
+        "dashdash":                         "~1.14.1",
+        "installed-packages":               "~0.9.3",
+        "micromatch":                       "~2.3.11",
+        "require-relative":                 "~0.8.7"
+    },
+    "engines": {
+        "node":                             ">=6.0.0"
+    },
+    "scripts": {
+        "grunt":                            "grunt"
+    },
+    "main":              "./lib/gemstone-tool-api.js",
+    "bin": { "gemstone": "./bin/gemstone-tool-cli.js" }
+}
