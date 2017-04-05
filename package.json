@@ -2,7 +2,7 @@
     "name":        "gemstone-tool",
     "homepage":    "http://github.com/gemstonejs/gemstone-tool",
     "description": "Gemstone Command-Line Interface Tool",
-    "version":     "0.9.1",
+    "version":     "0.9.2",
     "license":     "Apache-2.0",
     "author": {
         "name":    "Gemstone Project",
@@ -37,10 +37,10 @@
         "babel-preset-es2017":              "~6.22.0",
         "babel-preset-stage-3":             "~6.22.0",
         "babel-preset-stage-2":             "~6.22.0",
-        "babel-plugin-transform-runtime":   "~6.23.0",
-        "babel-runtime":                    "~6.23.0"
+        "babel-plugin-transform-runtime":   "~6.23.0"
     },
     "dependencies" : {
+        "babel-runtime":                    "~6.23.0",
         "ducky":                            "~2.5.0",
         "cli-table2":                       "~0.2.0",
         "window-size":                      "~0.3.0",
