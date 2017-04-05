@@ -235,6 +235,10 @@ export class Gemstone extends Latching {
                         let pjson
                         try { pjson = requireRelative(`${name}/package.json`, process.cwd()) }
                         catch (ex) { /* NO-OP */ }
+                        if (pjson === undefined) {
+                            try { pjson = require(`${name}/package.json`) }
+                            catch (ex) { /* NO-OP */ }
+                        }
                         return (
                                typeof pjson === "object"
                             && pjson !== null
@@ -246,7 +250,7 @@ export class Gemstone extends Latching {
                 else
                     plugins = micromatch(this.packagesInstalled, pattern, { nodupes: true })
                 if (plugins.length === 0 && !optional)
-                    throw new Error(`gemstone: ERROR: exec: no plugin package found for "${pattern}"`)
+                    throw new Error(`gemstone: ERROR: exec: no plugin package found for "${used}"`)
                 plugins.forEach((plugin) => {
                     let obj = requireRelative(plugin, process.cwd())
                     obj.call(this, this)
