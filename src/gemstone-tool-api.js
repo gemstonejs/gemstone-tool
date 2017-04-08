@@ -261,6 +261,33 @@ export class Gemstone extends Latching {
 
         /*  sanity check command  */
         let cmd = this.commands[name]
+        if (cmd === undefined) {
+            /*  fuzzy matching: prefix matching  */
+            let commands = Object.keys(this.commands)
+            let found = commands.filter((command) => command.startsWith(name))
+            if (found.length !== 1) {
+                /*  fuzzy matching: segment matching  */
+                let nameSegments = name.split(/-/)
+                found = commands.filter((command) => {
+                    let commandSegments = command.split(/-/)
+                    let match = false
+                    if (nameSegments.length === commandSegments.length) {
+                        let i
+                        for (i = 0; i < commandSegments.length; i++)
+                            if (!commandSegments[i].startsWith(nameSegments[i]))
+                                break
+                        if (i === commandSegments.length)
+                            match = true
+                    }
+                    return match
+                })
+                console.log(found)
+            }
+            if (found.length === 1) {
+                name = found[0]
+                cmd  = this.commands[name]
+            }
+        }
         if (cmd === undefined)
             throw new Error(`no such command "${name}" registered`)
 
