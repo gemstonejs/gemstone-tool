@@ -322,6 +322,20 @@ export class Gemstone extends Latching {
         /*  sanity check command  */
         let cmd = this.commands[name]
         if (cmd === undefined) {
+            /*  alias matching  */
+            let found = Object.keys(this.commands).filter((command) => {
+                return (
+                       typeof this.commands[command].alias === "object"
+                    && this.commands[command].alias instanceof Array
+                    && this.commands[command].alias.indexOf(name) >= 0
+                )
+            })
+            if (found.length === 1) {
+                name = found[0]
+                cmd  = this.commands[name]
+            }
+        }
+        if (cmd === undefined) {
             /*  fuzzy matching: prefix matching  */
             let commands = Object.keys(this.commands)
             let found = commands.filter((command) => command.startsWith(name))
