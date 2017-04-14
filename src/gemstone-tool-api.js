@@ -23,6 +23,7 @@
 */
 
 import path              from "path"
+import fs                from "fs-promise"
 import Latching          from "latching"
 import Ducky             from "ducky"
 import installedPackages from "installed-packages"
@@ -195,6 +196,7 @@ export class Gemstone extends Latching {
         this.verbose           = verbose
         this.colored           = colored
         this.packagesInstalled = null
+        this.packagesColocated = null
         this.packagesLoaded    = null
         this.packagesUsed      = []
         this.commands          = {}
@@ -223,19 +225,44 @@ export class Gemstone extends Latching {
         if (this.packagesInstalled === null)
             this.packagesInstalled = await installedPackages()
 
+        /*  deferred determination of colocated packages  */
+        if (this.packagesColocated === null) {
+            this.packagesColocated = []
+            let stubLoc
+            try { stubLoc = require.resolve(path.join("gemstone", "package.json")) }
+            catch (ex) { /* NO-OP */ }
+            if (stubLoc) {
+                stubLoc = path.dirname(stubLoc)
+                let dir = path.join(stubLoc, "node_modules")
+                let items = await fs.readdir(dir)
+                for (let i = 0; i < items.length; i++) {
+                    let stat = await fs.stat(path.join(dir, items[i]))
+                    if (stat.isDirectory()) {
+                        stat = await fs.stat(path.join(dir, items[i], "package.json"))
+                            .catch(() => null)
+                        if (stat !== null && stat.isFile())
+                            this.packagesColocated.push(path.join(dir, items[i]))
+                    }
+                }
+            }
+        }
+
         /*  deferred loading of requested plugins  */
         if (this.packagesLoaded === null) {
             this.packagesLoaded = []
             this.packagesUsed.forEach((used) => {
                 let [ , keyword, pattern, optional ] = used.match(/^(@)?(.+?)(!)?$/)
+                let found = false
+
+                /*  check standard installation locations  */
                 let plugins
                 if (keyword)
                     plugins = this.packagesInstalled.filter((name) => {
                         let pjson
-                        try { pjson = requireRelative(`${name}/package.json`, process.cwd()) }
+                        try { pjson = requireRelative(path.join(name, "package.json"), process.cwd()) }
                         catch (ex) { /* NO-OP */ }
                         if (pjson === undefined) {
-                            try { pjson = require(`${name}/package.json`) }
+                            try { pjson = require(path.join(name, "package.json")) }
                             catch (ex) { /* NO-OP */ }
                         }
                         return (
@@ -248,13 +275,47 @@ export class Gemstone extends Latching {
                     })
                 else
                     plugins = micromatch(this.packagesInstalled, pattern, { nodupes: true })
-                if (plugins.length === 0 && !optional)
+                if (plugins.length > 0) {
+                    found = true
+                    plugins.forEach((plugin) => {
+                        let obj = requireRelative(plugin, process.cwd())
+                        obj.call(this, this)
+                        this.packagesLoaded.push(plugin)
+                    })
+                }
+
+                /*  check Gemstone colocations  */
+                if (keyword)
+                    plugins = this.packagesColocated.filter((name) => {
+                        let pjson
+                        try { pjson = require(path.join(name, "package.json")) }
+                        catch (ex) { /* NO-OP */ }
+                        return (
+                               typeof pjson === "object"
+                            && pjson !== null
+                            && typeof pjson.keywords === "object"
+                            && pjson.keywords instanceof Array
+                            && pjson.keywords.indexOf(pattern) >= 0
+                        )
+                    })
+                else {
+                    plugins = this.packagesColocated.filter((name) => {
+                        let basename = path.basename(name)
+                        return micromatch.isMatch(basename, pattern, { nodupes: true })
+                    })
+                }
+                if (plugins.length > 0) {
+                    found = true
+                    plugins.forEach((plugin) => {
+                        let obj = require(plugin)
+                        obj.call(this, this)
+                        this.packagesLoaded.push(plugin)
+                    })
+                }
+
+                /*  final sanity check  */
+                if (!found && !optional)
                     throw new Error(`gemstone: ERROR: exec: no plugin package found for "${used}"`)
-                plugins.forEach((plugin) => {
-                    let obj = requireRelative(plugin, process.cwd())
-                    obj.call(this, this)
-                    this.packagesLoaded.push(plugin)
-                })
             })
         }
 
