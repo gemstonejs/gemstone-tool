@@ -52,7 +52,6 @@ const commandHelp = {
             out += `${chalk.blue(this.packagesLoaded.join(", "))}\n`
         out += "\n"
 
-        /* eslint no-console: 0 */
         const widthsSpread = (widths) => {
             let widthMax = windowsize.width - 1
             let total = 0
@@ -281,7 +280,6 @@ export class Gemstone extends Latching {
                     }
                     return match
                 })
-                console.log(found)
             }
             if (found.length === 1) {
                 name = found[0]
