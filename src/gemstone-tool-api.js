@@ -356,7 +356,9 @@ export class Gemstone extends Latching {
             if (opt === undefined)
                 throw new Error("gemstone: ERROR: exec: " +
                     `unknown option "${optName}" on command "${name}"`)
-            if (opt.type.match(/^\[.*\]$/) && !(typeof opts[optName] === "object" && opts[optName] instanceof Array))
+            if (   opt.type.match(/^\[.*\]$/)
+                && !(   typeof opts[optName] === "object"
+                     && opts[optName] instanceof Array   ))
                 opts[optName] = [ opts[optName] ]
             let errors = []
             if (!Ducky.validate(opts[optName], opt.type, errors))
