@@ -5,7 +5,7 @@
 */
 
 import path              from "path"
-import fs                from "fs-promise"
+import fs                from "mz/fs"
 import Latching          from "latching"
 import Ducky             from "ducky"
 import installedPackages from "installed-packages"
