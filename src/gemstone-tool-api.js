@@ -216,8 +216,8 @@ export class Gemstone extends Latching {
             if (stubLoc) {
                 stubLoc = path.dirname(stubLoc)
                 let dir = path.join(stubLoc, "node_modules")
-                let stat = await fs.stat(dir)
-                if (!stat.isDirectory())
+                let exists = await fs.exists(dir)
+                if (!exists)
                     dir = path.resolve(path.join(stubLoc, ".."))
                 let items = await fs.readdir(dir)
                 for (let i = 0; i < items.length; i++) {
