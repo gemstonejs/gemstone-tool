@@ -252,7 +252,7 @@ export class Gemstone extends Latching {
                             catch (ex) { /* NO-OP */ }
                         }
                         return (
-                               typeof pjson === "object"
+                            typeof pjson === "object"
                             && pjson !== null
                             && typeof pjson.keywords === "object"
                             && pjson.keywords instanceof Array
@@ -277,7 +277,7 @@ export class Gemstone extends Latching {
                         try { pjson = require(path.join(name, "package.json")) }
                         catch (ex) { /* NO-OP */ }
                         return (
-                               typeof pjson === "object"
+                            typeof pjson === "object"
                             && pjson !== null
                             && typeof pjson.keywords === "object"
                             && pjson.keywords instanceof Array
@@ -311,7 +311,7 @@ export class Gemstone extends Latching {
             /*  alias matching  */
             let found = Object.keys(this.commands).filter((command) => {
                 return (
-                       typeof this.commands[command].alias === "object"
+                    typeof this.commands[command].alias === "object"
                     && this.commands[command].alias instanceof Array
                     && this.commands[command].alias.indexOf(name) >= 0
                 )
