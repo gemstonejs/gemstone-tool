@@ -17,15 +17,15 @@ module.exports = function (grunt) {
     /*  define the Grunt task  */
     grunt.registerMultiTask("gemstone", "Gemstone Tool Commands", function () {
         /*  prepare options  */
-        var options = this.options({
+        let options = this.options({
             foo: "bar"
         });
         grunt.verbose.writeflags(options, "Options");
 
         /*  iterate over all src-dest file pairs  */
-        this.files.forEach(function (f) {
+        this.files.forEach(f => {
             try {
-                f.src.forEach(function (src) {
+                f.src.forEach(src => {
                     if (!grunt.file.exists(src)) throw new Error("Source file \"" + chalk.red(src) + "\" not found.");else {
                         /*  determine destination path  */
                         var dest = f.dest;
