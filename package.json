@@ -46,7 +46,7 @@
         "strip-ansi":                       "~4.0.0",
         "latching":                         "~0.9.7",
         "dashdash":                         "~1.14.1",
-        "installed-packages":               "~0.9.6",
+        "installed-packages":               "~0.9.7",
         "micromatch":                       "~3.1.9",
         "require-relative":                 "~0.8.7"
     },
