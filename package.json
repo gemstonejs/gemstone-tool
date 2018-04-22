@@ -2,7 +2,7 @@
     "name":        "gemstone-tool",
     "homepage":    "http://github.com/gemstonejs/gemstone-tool",
     "description": "Gemstone Command-Line Interface Tool",
-    "version":     "0.9.32",
+    "version":     "0.9.33",
     "license":     "Apache-2.0",
     "author": {
         "name":    "Gemstone Project",
