@@ -55,7 +55,7 @@
     },
     "scripts": {
         "prepublishOnly":                   "npm run build",
-        "grunt":                            "grunt"
+        "build":                            "grunt"
     },
     "main":                   "./lib/gemstone-tool-api.js",
     "bin": { "gemstone-tool": "./bin/gemstone-tool-cli.js" }
