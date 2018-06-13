@@ -12,7 +12,7 @@ import installedPackages from "installed-packages"
 import micromatch        from "micromatch"
 import chalk             from "chalk"
 import stripAnsi         from "strip-ansi"
-import Table             from "cli-table2"
+import Table             from "cli-table3"
 import windowsize        from "window-size"
 import requireRelative   from "require-relative"
 
