@@ -39,14 +39,14 @@
     "dependencies" : {
         "babel-runtime":                    "6.26.0",
         "mz":                               "2.7.0",
-        "ducky":                            "2.6.11",
+        "ducky":                            "2.6.12",
         "cli-table3":                       "0.5.1",
-        "window-size":                      "1.1.0",
+        "window-size":                      "1.1.1",
         "chalk":                            "2.4.1",
         "strip-ansi":                       "4.0.0",
-        "latching":                         "1.0.1",
+        "latching":                         "1.0.2",
         "dashdash":                         "1.14.1",
-        "installed-packages":               "1.0.1",
+        "installed-packages":               "1.0.2",
         "micromatch":                       "3.1.10",
         "require-relative":                 "0.8.7"
     },
