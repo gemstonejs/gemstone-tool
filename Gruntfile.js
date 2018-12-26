@@ -18,8 +18,18 @@ module.exports = function (grunt) {
         },
         babel: {
             options: {
-                presets: [ [ "env", { "targets": { "node": "7.6" } } ] ],
-                plugins: [ "transform-runtime" ]
+                presets: [
+                    [ "@babel/preset-env", {
+                        "targets": { "node": "8.0.0" }
+                    } ]
+                ],
+                plugins: [
+                    [ "@babel/plugin-transform-runtime", {
+                        "corejs":      2,
+                        "helpers":     true,
+                        "regenerator": false
+                    } ]
+                ]
             },
             "gemstone-tool-cli": {
                 files: {
