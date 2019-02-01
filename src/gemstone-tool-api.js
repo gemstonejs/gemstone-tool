@@ -1,6 +1,6 @@
 /*
 **  GemstoneJS -- Gemstone JavaScript Technology Stack
-**  Copyright (c) 2016-2018 Gemstone Project <http://gemstonejs.com>
+**  Copyright (c) 2016-2019 Gemstone Project <http://gemstonejs.com>
 **  Licensed under Apache License 2.0 <https://spdx.org/licenses/Apache-2.0>
 */
 
@@ -24,7 +24,7 @@ const commandHelp = {
     func: async function (/* opts, ...args */) {
         const pjson = require(path.join(__dirname, "..", "package.json"))
         let out = chalk.bold(`Gemstone Tool ${pjson.version}\n`)
-        out += "Copyright (c) 2016-2018 Ralf S. Engelschall <rse@engelschall.com>\n"
+        out += "Copyright (c) 2016-2019 Ralf S. Engelschall <rse@engelschall.com>\n"
         out += "Licensed under Apache License 2.0 <https://spdx.org/licenses/Apache-2.0>\n"
         out += "\n"
 
