@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     /*  define the Grunt task  */
     grunt.registerMultiTask("gemstone", "Gemstone Tool Commands", function () {
         /*  prepare options  */
-        let options = this.options({
+        const options = this.options({
             foo: "bar"
         })
         grunt.verbose.writeflags(options, "Options")

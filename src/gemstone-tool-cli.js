@@ -44,7 +44,7 @@ catch (ex) {
  */
 
 if (opts.help) {
-    let help = parser.help().trimRight()
+    const help = parser.help().trimRight()
     process.stdout.write(
         "gemstone: USAGE: gemstone [options] command [arguments]\n" +
         "options:\n" +
@@ -60,12 +60,12 @@ else if (opts.version) {
  *  STEP 3: Load API and the requested plugins
  */
 
-let gemstone = new Gemstone({
+const gemstone = new Gemstone({
     verbose: opts.verbose,
     color:   opts.color
 })
 if (opts.plugins !== "") {
-    let plugins = opts.plugins.split(/,/)
+    const plugins = opts.plugins.split(/,/)
     gemstone.use(plugins)
 }
 
@@ -78,9 +78,9 @@ let args = opts._args
 if (args.length === 0)
     args = [ "help" ]
 
-let pluginName = args.shift()
-let pluginOpts = {}
-let pluginArgs = []
+const pluginName = args.shift()
+const pluginOpts = {}
+const pluginArgs = []
 
 const convertValue = (val) => {
     if (val.match(/^(?:true|false)$/))
@@ -93,7 +93,7 @@ const convertValue = (val) => {
 }
 
 while (args.length > 0) {
-    let arg = args.shift()
+    const arg = args.shift()
     let m
     if ((m = arg.match(/^([a-zA-Z_][a-zA-Z0-9_-]*)=(.*)$/)) !== null) {
         let [ , key, val ] = m

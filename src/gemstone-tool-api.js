@@ -37,7 +37,7 @@ const commandHelp = {
         out += "\n"
 
         const widthsSpread = (widths) => {
-            let widthMax = windowsize.width - 1
+            const widthMax = windowsize.width - 1
             let total = 0
             for (let i = 0; i < widths.length; i++) {
                 widths[i] = Math.floor((widthMax / 100) * widths[i]) - 1
@@ -49,8 +49,8 @@ const commandHelp = {
         }
 
         Object.keys(this.commands).sort().forEach((cmd) => {
-            let hasOpts = (Object.keys(this.commands[cmd].opts).length > 0)
-            let hasArgs = (this.commands[cmd].args.length > 0)
+            const hasOpts = (Object.keys(this.commands[cmd].opts).length > 0)
+            const hasArgs = (this.commands[cmd].args.length > 0)
 
             let table = new Table({
                 head: [
@@ -123,7 +123,7 @@ const commandHelp = {
                     }
                 })
                 Object.keys(this.commands[cmd].opts).forEach((name) => {
-                    let opt = this.commands[cmd].opts[name]
+                    const opt = this.commands[cmd].opts[name]
                     table.push([ chalk.blue(opt.name), opt.type, JSON.stringify(opt.def), opt.desc ])
                 })
                 out += table.toString() + "\n"
@@ -192,7 +192,7 @@ export class Gemstone extends Latching {
         args.forEach((arg) => {
             if (!(typeof arg === "object" && arg instanceof Array))
                 arg = [ arg ]
-            let errors = []
+            const errors = []
             if (!Ducky.validate(arg, "[ string* ]", errors))
                 throw new Error(`gemstone: ERROR: use: invalid argument(s): ${errors.join("; ")}`)
             this.packagesUsed = this.packagesUsed.concat(arg)
@@ -217,10 +217,10 @@ export class Gemstone extends Latching {
             if (stubLoc) {
                 stubLoc = path.dirname(stubLoc)
                 let dir = path.join(stubLoc, "node_modules")
-                let exists = await fs.exists(dir)
+                const exists = await fs.exists(dir)
                 if (!exists)
                     dir = path.resolve(path.join(stubLoc, ".."))
-                let items = await fs.readdir(dir)
+                const items = await fs.readdir(dir)
                 for (let i = 0; i < items.length; i++) {
                     let stat = await fs.stat(path.join(dir, items[i]))
                     if (stat.isDirectory()) {
@@ -237,7 +237,7 @@ export class Gemstone extends Latching {
         if (this.packagesLoaded === null) {
             this.packagesLoaded = []
             this.packagesUsed.forEach((used) => {
-                let [ , keyword, pattern, optional ] = used.match(/^(@)?(.+?)(!)?$/)
+                const [ , keyword, pattern, optional ] = used.match(/^(@)?(.+?)(!)?$/)
                 let found = false
 
                 /*  check standard installation locations  */
@@ -264,7 +264,7 @@ export class Gemstone extends Latching {
                 if (plugins.length > 0) {
                     found = true
                     plugins.forEach((plugin) => {
-                        let obj = requireRelative(plugin, process.cwd())
+                        const obj = requireRelative(plugin, process.cwd())
                         obj.call(this, this)
                         this.packagesLoaded.push(plugin)
                     })
@@ -286,14 +286,14 @@ export class Gemstone extends Latching {
                     })
                 else {
                     plugins = this.packagesColocated.filter((name) => {
-                        let basename = path.basename(name)
+                        const basename = path.basename(name)
                         return micromatch.isMatch(basename, pattern, { nodupes: true })
                     })
                 }
                 if (plugins.length > 0) {
                     found = true
                     plugins.forEach((plugin) => {
-                        let obj = require(plugin)
+                        const obj = require(plugin)
                         obj.call(this, this)
                         this.packagesLoaded.push(plugin)
                     })
@@ -309,7 +309,7 @@ export class Gemstone extends Latching {
         let cmd = this.commands[name]
         if (cmd === undefined) {
             /*  alias matching  */
-            let found = Object.keys(this.commands).filter((command) => {
+            const found = Object.keys(this.commands).filter((command) => {
                 return (
                     typeof this.commands[command].alias === "object"
                     && this.commands[command].alias instanceof Array
@@ -323,13 +323,13 @@ export class Gemstone extends Latching {
         }
         if (cmd === undefined) {
             /*  fuzzy matching: prefix matching  */
-            let commands = Object.keys(this.commands)
+            const commands = Object.keys(this.commands)
             let found = commands.filter((command) => command.startsWith(name))
             if (found.length !== 1) {
                 /*  fuzzy matching: segment matching  */
-                let nameSegments = name.split(/-/)
+                const nameSegments = name.split(/-/)
                 found = commands.filter((command) => {
-                    let commandSegments = command.split(/-/)
+                    const commandSegments = command.split(/-/)
                     let match = false
                     if (nameSegments.length === commandSegments.length) {
                         let i
@@ -352,7 +352,7 @@ export class Gemstone extends Latching {
 
         /*  sanity check options  */
         Object.keys(opts).forEach((optName) => {
-            let opt = cmd.opts.find((opt) => opt.name === optName)
+            const opt = cmd.opts.find((opt) => opt.name === optName)
             if (opt === undefined)
                 throw new Error("gemstone: ERROR: exec: " +
                     `unknown option "${optName}" on command "${name}"`)
@@ -360,7 +360,7 @@ export class Gemstone extends Latching {
                 && !(   typeof opts[optName] === "object"
                      && opts[optName] instanceof Array   ))
                 opts[optName] = [ opts[optName] ]
-            let errors = []
+            const errors = []
             if (!Ducky.validate(opts[optName], opt.type, errors))
                 throw new Error("gemstone: ERROR: exec: " +
                     `invalid type "${typeof opts[optName]}" for value of option "${optName}" ` +
@@ -379,11 +379,11 @@ export class Gemstone extends Latching {
         /*  sanity check arguments  */
         let i
         for (i = 0; i < args.length; i++) {
-            let spec = cmd.args[i]
+            const spec = cmd.args[i]
             if (spec === undefined)
                 throw new Error(`gemstone: ERROR: exec: too many arguments on command "${name}"`)
             if (spec.type.match(/^\[.*\]$/)) {
-                let errors = []
+                const errors = []
                 if (!Ducky.validate(args.slice(i), spec.type, errors))
                     throw new Error("gemstone: ERROR: exec: " +
                         `invalid arguments #${i}+ on command "${name}": ${errors.join("; ")}`)
@@ -391,13 +391,13 @@ export class Gemstone extends Latching {
                 break
             }
             else {
-                let errors = []
+                const errors = []
                 if (!Ducky.validate(args[i], spec.type, errors))
                     throw new Error("gemstone: ERROR: exec: " +
                         `invalid argument #${i} on command "${name}": ${errors.join("; ")}`)
             }
         }
-        let spec = cmd.args[i]
+        const spec = cmd.args[i]
         if (spec !== undefined)
             throw new Error(`gemstone: ERROR: exec: too less arguments on command "${name}"`)
 
