@@ -47,7 +47,7 @@
         "latching":                         "1.0.6",
         "dashdash":                         "1.14.1",
         "installed-packages":               "1.0.6",
-        "micromatch":                       "4.0.2",
+        "micromatch":                       "4.0.8",
         "require-relative":                 "0.8.7"
     },
     "engines": {
